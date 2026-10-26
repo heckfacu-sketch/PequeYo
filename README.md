@@ -24,7 +24,7 @@ Paga la seña ─► MP llama /api/mp-webhook ─► Notion "Seña pagada" + Tel
 | Pieza | Para qué | Costo |
 |---|---|---|
 | GitHub | Código | Gratis |
-| Cloudflare Pages + Functions | Web y backend (esconde las API keys) | Gratis (100.000 requests/día) |
+| Cloudflare Workers + Static Assets | Web y backend (esconde las API keys) | Gratis (100.000 requests/día) |
 | Cloudflare R2 | Fotos, previews, pedidos, modelos | Gratis hasta 10 GB |
 | Cloudflare KV | Límite de previews por email/IP | Gratis |
 | Cloudflare Turnstile | Captcha anti-bots | Gratis |
@@ -34,7 +34,7 @@ Paga la seña ─► MP llama /api/mp-webhook ─► Notion "Seña pagada" + Tel
 | OpenAI Images API | Vista previa 2D | Centavos de USD por imagen (calidad baja) |
 | Meshy API (opcional) | Boceto 3D automático post-seña | Requiere plan pago con API |
 
-Dominio propio (.com.ar en NIC Argentina o .com) es opcional: Cloudflare te da `pequeyo.pages.dev` gratis.
+Dominio propio (.com.ar en NIC Argentina o .com) es opcional: Cloudflare te da `pequeyo.heckfacu.workers.dev` gratis.
 
 ---
 
@@ -51,7 +51,7 @@ Dominio propio (.com.ar en NIC Argentina o .com) es opcional: Cloudflare te da `
    - Prefijo `previews/` → borrar a los 60 días.
    - (No pongas regla sobre `orders/` ni `models/`.)
 3. **Workers & Pages → KV** → Create namespace `pequeyo-rate` → copiá el ID y pegalo en `wrangler.toml` (`REEMPLAZAR_CON_EL_ID_DEL_KV`).
-4. **Turnstile** → Add widget → dominio `pequeyo.pages.dev` (y tu dominio si tenés) → copiá **Site key** (va en `wrangler.toml` → `TURNSTILE_SITE_KEY`) y **Secret key**.
+4. **Turnstile** → Add widget → dominio `pequeyo.heckfacu.workers.dev` (y tu dominio si tenés) → copiá **Site key** (va en `wrangler.toml` → `TURNSTILE_SITE_KEY`) y **Secret key**.
 5. **Workers & Pages → Create → Pages → Connect to Git** → elegí el repo.
    - Framework: None · Build command: vacío · Output directory: `public`.
    - Los bindings de R2 y KV los toma de `wrangler.toml`.
@@ -89,7 +89,7 @@ Estados: `Nuevo` → `Seña pagada` → `Modelando` → `Aprobación del cliente
 1. mercadopago.com.ar/developers → Tus integraciones → Crear aplicación (Checkout Pro).
 2. Probá primero con credenciales de **prueba** (`TEST-...`) y usuarios de prueba.
 3. Para vender: credenciales de **producción** → `MP_ACCESS_TOKEN`.
-4. Webhooks → URL `https://pequeyo.pages.dev/api/mp-webhook`, evento **Pagos** → copiá la clave secreta → `MP_WEBHOOK_SECRET`.
+4. Webhooks → URL `https://pequeyo.heckfacu.workers.dev/api/mp-webhook`, evento **Pagos** → copiá la clave secreta → `MP_WEBHOOK_SECRET`.
 5. La web nunca confía en el aviso: vuelve a consultar el pago a MP antes de marcarlo pagado.
 
 ### 6. Telegram
@@ -108,7 +108,7 @@ Estados: `Nuevo` → `Seña pagada` → `Modelando` → `Aprobación del cliente
 
 | # | Qué | Dónde |
 |---|---|---|
-| 1 | Deploy automático en cada push | Cloudflare Pages + GitHub |
+| 1 | Deploy automático en cada push | Cloudflare Workers Builds + GitHub |
 | 2 | Pedido nuevo → fila en Notion + Telegram | `/api/order` |
 | 3 | Seña pagada → Notion + Telegram (+ 3D opcional) | `/api/mp-webhook` |
 | 4 | Fotos que se borran solas | Reglas de ciclo de vida en R2 |
@@ -120,7 +120,7 @@ Estados: `Nuevo` → `Seña pagada` → `Modelando` → `Aprobación del cliente
 ```bash
 npm install
 cp .dev.vars.example .dev.vars   # completá OPENAI_API_KEY
-npm run dev                      # http://localhost:8788
+npm run dev                      # http://localhost:8787
 ```
 En local, con `DEV=1`, no hace falta Turnstile. El webhook de MP solo funciona con la web publicada.
 
@@ -135,6 +135,7 @@ En local, con `DEV=1`, no hace falta Turnstile. El webhook de MP solo funciona c
 ```
 lib/config.js            precios, prompt, límites
 lib/util.js              OpenAI, Notion, MP, Meshy, Telegram, R2, Turnstile
+src/index.js             entrada del Worker: rutea /api/* y sirve public/
 functions/api/config.js  GET  datos públicos
 functions/api/preview.js POST foto → vista previa
 functions/api/order.js   POST pedido → Notion + link de MP

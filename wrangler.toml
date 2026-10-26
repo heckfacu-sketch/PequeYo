@@ -1,25 +1,34 @@
 name = "pequeyo"
-pages_build_output_dir = "public"
+main = "src/index.js"
 compatibility_date = "2026-10-01"
+
+# Web estática (public/) + API en el Worker
+[assets]
+directory = "./public"
+binding = "ASSETS"
+run_worker_first = ["/api/*"]
 
 # Bucket R2 donde se guardan fotos, previews, pedidos y modelos 3D
 [[r2_buckets]]
 binding = "BUCKET"
 bucket_name = "pequeyo"
 
-# KV para limitar previews por email/IP (pegá el id que te da Cloudflare)
+# KV para limitar previews por email/IP
 [[kv_namespaces]]
 binding = "RATE"
-id = "REEMPLAZAR_CON_EL_ID_DEL_KV"
+id = "964f5587258142e4ae0ccea7609b28a1"
+
+[observability]
+enabled = true
 
 [vars]
 OPENAI_IMAGE_MODEL = "gpt-image-2"
 OPENAI_IMAGE_QUALITY = "low"
-# TURNSTILE_SITE_KEY y CONTACT_WHATSAPP podés ponerlos acá (son públicos)
+# Públicos: la Site key de Turnstile y tu WhatsApp (ej. 5491123456789)
 TURNSTILE_SITE_KEY = ""
 CONTACT_WHATSAPP = ""
 
-# Secrets (NO van acá, se cargan en el panel de Cloudflare):
+# Secrets (NO van acá, se cargan en Cloudflare → pequeyo → Settings → Variables and Secrets):
 # OPENAI_API_KEY, TURNSTILE_SECRET, ADMIN_KEY,
 # NOTION_TOKEN, NOTION_DATABASE_ID,
 # MP_ACCESS_TOKEN, MP_WEBHOOK_SECRET,
