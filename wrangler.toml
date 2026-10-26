@@ -1,11 +1,11 @@
-name = "miniyo"
+name = "pequeyo"
 pages_build_output_dir = "public"
 compatibility_date = "2026-10-01"
 
 # Bucket R2 donde se guardan fotos, previews, pedidos y modelos 3D
 [[r2_buckets]]
 binding = "BUCKET"
-bucket_name = "miniyo"
+bucket_name = "pequeyo"
 
 # KV para limitar previews por email/IP (pegá el id que te da Cloudflare)
 [[kv_namespaces]]

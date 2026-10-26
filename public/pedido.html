@@ -4,39 +4,42 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="robots" content="noindex">
-  <title>Tu pedido · MiniYo</title>
+  <meta name="theme-color" content="#f7f5fb">
+  <title>Tu PequeYo · Seguimiento</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;800&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600&family=Nunito+Sans:wght@400;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/styles.css">
-  <script type="module" src="https://unpkg.com/@google/model-viewer@^4/dist/model-viewer.min.js"></script>
+  <script type="module" src="https://unpkg.com/@google/model-viewer@4.0.0/dist/model-viewer.min.js"></script>
 </head>
 <body>
   <div class="wrap">
-    <header class="top"><a class="logo" href="/">Mini<span>Yo</span></a></header>
+    <header class="top"><a class="logo" href="/">PequeYo</a></header>
 
-    <div class="studio" style="padding-bottom:56px">
+    <div class="studio" style="padding-bottom:40px">
       <div class="card">
-        <h1 style="font-size:40px" id="title">Tu pedido</h1>
-        <p id="subtitle" style="color:var(--muted)">Cargando…</p>
+        <h2 id="title">Tu PequeYo</h2>
+        <p id="subtitle" class="nota" style="font-size:16px;line-height:24px">Cargando…</p>
         <ul class="timeline" id="timeline"></ul>
-        <a class="btn hidden" id="payBtn">Pagar seña</a>
-        <p style="font-size:14px;color:var(--muted)">Guardá este link para ver cómo avanza tu figura. Ante cualquier duda escribinos por WhatsApp.</p>
+        <a class="btn hidden" id="payBtn">Pagar la seña</a>
+        <p class="nota" style="margin-top:16px">Guardá este link para ver cómo avanza tu PequeYo. Si tenés dudas, escribinos por WhatsApp.</p>
       </div>
 
       <div class="card">
         <div id="modelBox" class="hidden">
           <h3>Primer boceto 3D</h3>
-          <model-viewer id="mv" camera-controls auto-rotate shadow-intensity="1" alt="Boceto 3D de tu figura"></model-viewer>
-          <p style="font-size:14px;color:var(--muted)">Es un boceto automático para que la veas girar. La versión final la esculpimos a mano.</p>
+          <model-viewer id="mv" camera-controls auto-rotate alt="Boceto 3D de tu figura"></model-viewer>
+          <p class="nota" style="margin-top:12px">Es un boceto automático para que lo veas girar. La versión final la esculpimos a mano.</p>
         </div>
         <div id="modelWait" class="hidden" style="text-align:center;padding:20px 0">
           <div class="spinner"></div>
           <p>Generando tu boceto 3D… <span id="progress"></span></p>
         </div>
         <div id="previewBox">
-          <h3>Vista previa</h3>
-          <div class="preview-frame"><img id="previewImg" alt="Vista previa"></div>
+          <div class="caja">
+            <div class="caja-top"><span class="logo">PequeYo</span><span class="etiqueta" style="background:#fff">Hecho a mano</span></div>
+            <div class="ventana"><img id="previewImg" alt="Vista previa"></div>
+          </div>
         </div>
       </div>
     </div>

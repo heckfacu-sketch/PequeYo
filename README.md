@@ -1,8 +1,8 @@
-# MiniYo — figuras cabezonas personalizadas
+# PequeYo — Vos, en chiquito
 
 Web donde el cliente sube una foto, ve una vista previa de su figura estilo vinilo coleccionable, paga la seña con Mercado Pago y sigue su pedido. Vos modelás la figura real.
 
-> **Nombre y marca:** "MiniYo" es provisorio. No uses "Funko" ni "Funko Pop" en el nombre, dominio, logo, textos ni publicidad (es marca registrada). Vendé "figuras personalizadas estilo cabezón / vinyl toy".
+> **Marca:** se escribe siempre **PequeYo**. Nunca uses "Funko" ni "Funko Pop" en el nombre, dominio, logo, textos ni publicidad (es marca registrada de otra empresa). Decí "figura estilo cabezón" o "figura coleccionable".
 
 ## Cómo funciona
 
@@ -34,24 +34,24 @@ Paga la seña ─► MP llama /api/mp-webhook ─► Notion "Seña pagada" + Tel
 | OpenAI Images API | Vista previa 2D | Centavos de USD por imagen (calidad baja) |
 | Meshy API (opcional) | Boceto 3D automático post-seña | Requiere plan pago con API |
 
-Dominio propio (.com.ar en NIC Argentina o .com) es opcional: Cloudflare te da `miniyo.pages.dev` gratis.
+Dominio propio (.com.ar en NIC Argentina o .com) es opcional: Cloudflare te da `pequeyo.pages.dev` gratis.
 
 ---
 
 ## Puesta en marcha (paso a paso)
 
 ### 1. GitHub
-1. Creá un repo privado (ej. `miniyo`) y subí esta carpeta.
+1. Creá un repo privado (ej. `pequeyo`) y subí esta carpeta.
 2. Nunca subas `.dev.vars` (ya está en `.gitignore`).
 
 ### 2. Cloudflare (cuenta gratis en dash.cloudflare.com)
-1. **R2** → Create bucket → nombre `miniyo`. (R2 pide cargar tarjeta aunque uses el tier gratis.)
-2. **R2 → miniyo → Settings → Object lifecycle rules**:
+1. **R2** → Create bucket → nombre `pequeyo`. (R2 pide cargar tarjeta aunque uses el tier gratis.)
+2. **R2 → pequeyo → Settings → Object lifecycle rules**:
    - Prefijo `uploads/` → borrar a los 30 días.
    - Prefijo `previews/` → borrar a los 60 días.
    - (No pongas regla sobre `orders/` ni `models/`.)
-3. **Workers & Pages → KV** → Create namespace `miniyo-rate` → copiá el ID y pegalo en `wrangler.toml` (`REEMPLAZAR_CON_EL_ID_DEL_KV`).
-4. **Turnstile** → Add widget → dominio `miniyo.pages.dev` (y tu dominio si tenés) → copiá **Site key** (va en `wrangler.toml` → `TURNSTILE_SITE_KEY`) y **Secret key**.
+3. **Workers & Pages → KV** → Create namespace `pequeyo-rate` → copiá el ID y pegalo en `wrangler.toml` (`REEMPLAZAR_CON_EL_ID_DEL_KV`).
+4. **Turnstile** → Add widget → dominio `pequeyo.pages.dev` (y tu dominio si tenés) → copiá **Site key** (va en `wrangler.toml` → `TURNSTILE_SITE_KEY`) y **Secret key**.
 5. **Workers & Pages → Create → Pages → Connect to Git** → elegí el repo.
    - Framework: None · Build command: vacío · Output directory: `public`.
    - Los bindings de R2 y KV los toma de `wrangler.toml`.
@@ -78,7 +78,7 @@ Dominio propio (.com.ar en NIC Argentina o .com) es opcional: Cloudflare te da `
 4. `OPENAI_IMAGE_QUALITY`: `low` (más barato) o `medium` (mejor parecido).
 
 ### 4. Notion
-La base **Pedidos MiniYo** ya está creada con las columnas que usa el código.
+La base **Pedidos PequeYo** ya está creada con las columnas que usa el código.
 1. notion.so/profile/integrations → New integration (interna) → copiá el token → `NOTION_TOKEN`.
 2. Abrí la base → `···` → Connections → agregá tu integración.
 3. No renombres columnas ni opciones de **Estado**: la web las usa tal cual.
@@ -89,7 +89,7 @@ Estados: `Nuevo` → `Seña pagada` → `Modelando` → `Aprobación del cliente
 1. mercadopago.com.ar/developers → Tus integraciones → Crear aplicación (Checkout Pro).
 2. Probá primero con credenciales de **prueba** (`TEST-...`) y usuarios de prueba.
 3. Para vender: credenciales de **producción** → `MP_ACCESS_TOKEN`.
-4. Webhooks → URL `https://miniyo.pages.dev/api/mp-webhook`, evento **Pagos** → copiá la clave secreta → `MP_WEBHOOK_SECRET`.
+4. Webhooks → URL `https://pequeyo.pages.dev/api/mp-webhook`, evento **Pagos** → copiá la clave secreta → `MP_WEBHOOK_SECRET`.
 5. La web nunca confía en el aviso: vuelve a consultar el pago a MP antes de marcarlo pagado.
 
 ### 6. Telegram
@@ -113,7 +113,7 @@ Estados: `Nuevo` → `Seña pagada` → `Modelando` → `Aprobación del cliente
 | 3 | Seña pagada → Notion + Telegram (+ 3D opcional) | `/api/mp-webhook` |
 | 4 | Fotos que se borran solas | Reglas de ciclo de vida en R2 |
 | 5 | Antiabuso: captcha + 3 previews/día por email, 6 por IP | Turnstile + KV |
-| 6 | **Tarea programada de Claude** lun–sáb 8:38: lee Notion, deja borradores en Gmail, bloquea tiempo de modelado en Calendar y te manda un resumen | Claude (scheduled task "Pedidos MiniYo diario") |
+| 6 | **Tarea programada de Claude** lun–sáb 8:38: lee Notion, deja borradores en Gmail, bloquea tiempo de modelado en Calendar y te manda un resumen | Claude (scheduled task "Pedidos PequeYo diario") |
 
 ## Probar en tu compu
 
@@ -127,7 +127,7 @@ En local, con `DEV=1`, no hace falta Turnstile. El webhook de MP solo funciona c
 ## Dónde editar
 
 - Precios, tamaños, seña, límites, prompt → `lib/config.js`
-- Textos y diseño → `public/index.html`, `public/styles.css`
+- Textos y diseño → `public/index.html`, `public/styles.css` (tokens del design system PequeYo: paleta, Fredoka + Nunito Sans, radios y espaciado)
 - Pasos del seguimiento → `public/pedido.js` (`STEPS`, deben coincidir con Estado en Notion)
 
 ## Estructura
