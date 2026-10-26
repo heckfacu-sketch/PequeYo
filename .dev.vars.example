@@ -1,0 +1,12 @@
+# Copiá este archivo como .dev.vars para probar en tu compu (no se sube a GitHub)
+DEV=1
+OPENAI_API_KEY=sk-...
+ADMIN_KEY=una-clave-larga-que-inventes
+# Opcionales en local:
+NOTION_TOKEN=
+NOTION_DATABASE_ID=
+MP_ACCESS_TOKEN=TEST-...
+TELEGRAM_BOT_TOKEN=
+TELEGRAM_CHAT_ID=
+# Clave de prueba de Meshy (no gasta créditos, devuelve un modelo de ejemplo):
+MESHY_API_KEY=msy_dummy_api_key_for_test_mode_12345678

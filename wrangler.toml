@@ -1,0 +1,27 @@
+name = "miniyo"
+pages_build_output_dir = "public"
+compatibility_date = "2026-10-01"
+
+# Bucket R2 donde se guardan fotos, previews, pedidos y modelos 3D
+[[r2_buckets]]
+binding = "BUCKET"
+bucket_name = "miniyo"
+
+# KV para limitar previews por email/IP (pegá el id que te da Cloudflare)
+[[kv_namespaces]]
+binding = "RATE"
+id = "REEMPLAZAR_CON_EL_ID_DEL_KV"
+
+[vars]
+OPENAI_IMAGE_MODEL = "gpt-image-2"
+OPENAI_IMAGE_QUALITY = "low"
+# TURNSTILE_SITE_KEY y CONTACT_WHATSAPP podés ponerlos acá (son públicos)
+TURNSTILE_SITE_KEY = ""
+CONTACT_WHATSAPP = ""
+
+# Secrets (NO van acá, se cargan en el panel de Cloudflare):
+# OPENAI_API_KEY, TURNSTILE_SECRET, ADMIN_KEY,
+# NOTION_TOKEN, NOTION_DATABASE_ID,
+# MP_ACCESS_TOKEN, MP_WEBHOOK_SECRET,
+# TELEGRAM_BOT_TOKEN, TELEGRAM_CHAT_ID,
+# MESHY_API_KEY (opcional)

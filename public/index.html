@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="es-AR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>MiniYo · Tu figura cabezona personalizada</title>
+  <meta name="description" content="Subí una foto y mirá cómo quedarías como figura coleccionable cabezona. Después la modelamos e imprimimos en 3D para vos.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;800&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/styles.css">
+  <script src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit" defer></script>
+</head>
+<body>
+  <div class="wrap">
+    <header class="top">
+      <a class="logo" href="/" data-brand>Mini<span>Yo</span></a>
+      <nav><a href="#como">Cómo funciona</a><a href="#crear">Crear la mía</a><a href="#faq">Preguntas</a></nav>
+    </header>
+
+    <section class="hero">
+      <div>
+        <h1>Vos, en versión <em>cabezona</em> y coleccionable.</h1>
+        <p class="lead">Subí una foto, mirá en segundos cómo quedarías y te la hacemos en 3D, pintada y lista para tu escritorio.</p>
+        <div class="badge-row">
+          <span class="badge">✨ Vista previa gratis</span>
+          <span class="badge">🎨 Modelada a mano</span>
+          <span class="badge">📦 Envíos a todo el país</span>
+        </div>
+        <a class="btn" href="#crear">Probar con mi foto →</a>
+      </div>
+      <div class="hero-art" aria-hidden="true">
+        <!-- Ilustración original -->
+        <svg viewBox="0 0 200 240" xmlns="http://www.w3.org/2000/svg">
+          <ellipse cx="100" cy="228" rx="52" ry="8" fill="#000" opacity=".12"/>
+          <rect x="72" y="150" width="56" height="70" rx="20" fill="#2e6bff" stroke="#1b1a2e" stroke-width="4"/>
+          <rect x="80" y="205" width="16" height="22" rx="7" fill="#1b1a2e"/>
+          <rect x="104" y="205" width="16" height="22" rx="7" fill="#1b1a2e"/>
+          <rect x="30" y="20" width="140" height="132" rx="56" fill="#ffd9c2" stroke="#1b1a2e" stroke-width="4"/>
+          <path d="M30 80 C30 30 70 14 100 14 C140 14 172 34 170 82 C150 60 120 52 96 56 C70 60 46 66 30 80Z" fill="#3a2418" stroke="#1b1a2e" stroke-width="4"/>
+          <circle cx="74" cy="100" r="13" fill="#1b1a2e"/><circle cx="126" cy="100" r="13" fill="#1b1a2e"/>
+          <circle cx="78" cy="96" r="3.5" fill="#fff"/><circle cx="130" cy="96" r="3.5" fill="#fff"/>
+          <path d="M92 126 Q100 132 108 126" stroke="#1b1a2e" stroke-width="4" fill="none" stroke-linecap="round"/>
+          <circle cx="56" cy="118" r="7" fill="#ff5a36" opacity=".35"/><circle cx="144" cy="118" r="7" fill="#ff5a36" opacity=".35"/>
+        </svg>
+      </div>
+    </section>
+
+    <section class="block" id="como">
+      <h2>Cómo funciona</h2>
+      <div class="steps">
+        <div class="step"><b>1</b><h3>Subí tu foto</h3><p>De frente, con buena luz. Puede ser tuya, de tu pareja o de un amigo (con su permiso).</p></div>
+        <div class="step"><b>2</b><h3>Mirá la vista previa</h3><p>La IA te muestra en segundos cómo quedaría tu figura. Si te gusta, reservás con una seña.</p></div>
+        <div class="step"><b>3</b><h3>La hacemos en 3D</h3><p>Modelamos tu figura a mano, la imprimimos, la pintamos y te la mandamos.</p></div>
+      </div>
+    </section>
+
+    <section class="block" id="crear">
+      <h2>Creá la tuya</h2>
+      <div class="studio">
+        <!-- Paso 1: foto -->
+        <form class="card" id="previewForm" novalidate>
+          <div class="drop" id="drop" tabindex="0" role="button" aria-label="Elegir foto">
+            <div id="dropEmpty">
+              <p><strong>Tocá para elegir una foto</strong><br>o arrastrala acá</p>
+              <small>JPG, PNG o WEBP · una sola persona · cara visible</small>
+            </div>
+            <img id="dropImg" class="hidden" alt="Tu foto">
+          </div>
+          <input type="file" id="photo" accept="image/jpeg,image/png,image/webp" hidden>
+
+          <label class="f" for="email">Tu email</label>
+          <input type="email" id="email" placeholder="vos@mail.com" autocomplete="email" required>
+
+          <label class="check"><input type="checkbox" id="consent" required>
+            <span>Tengo permiso de la persona de la foto y acepto que se use solo para generar la vista previa y el modelo. Se borra a los 30 días. <a href="/privacidad.html" target="_blank">Privacidad</a></span>
+          </label>
+
+          <div id="turnstile"></div>
+          <button class="btn" type="submit" id="genBtn" style="margin-top:14px;width:100%">Generar vista previa</button>
+          <div class="msg" id="previewMsg"></div>
+        </form>
+
+        <!-- Paso 2: resultado + pedido -->
+        <div class="card">
+          <div class="result" id="result">
+            <div id="resEmpty"><p>Tu vista previa aparece acá 👀</p></div>
+            <div id="resLoading" class="hidden"><div class="spinner"></div><p id="loadingText">Esculpiendo tu cabeza gigante…</p></div>
+            <div id="resDone" class="hidden" style="width:100%">
+              <div class="preview-frame">
+                <img id="previewImg" alt="Vista previa de tu figura">
+                <div class="watermark"><span data-brand-text>MiniYo · vista previa</span></div>
+              </div>
+              <p style="font-size:14px;margin:10px 0 0">Es una referencia de la IA: tu figura final la modelamos a mano y queda más prolija.</p>
+            </div>
+          </div>
+
+          <form id="orderForm" class="hidden" novalidate>
+            <h3 style="margin-top:20px">¿Te gusta? Reservala</h3>
+            <div class="sizes" id="sizes"></div>
+            <label class="f" for="name">Nombre</label>
+            <input type="text" id="name" autocomplete="name" required>
+            <label class="f" for="phone">WhatsApp</label>
+            <input type="tel" id="phone" placeholder="11 2345 6789" autocomplete="tel" required>
+            <label class="f" for="notes">Detalles (opcional)</label>
+            <textarea id="notes" rows="2" placeholder="Ej: con la camiseta de mi club, con mi perro, pelo más largo…"></textarea>
+            <button class="btn" type="submit" id="orderBtn" style="margin-top:16px;width:100%">Pagar seña con Mercado Pago</button>
+            <p id="depositNote" style="font-size:14px;color:var(--muted);margin:10px 0 0"></p>
+            <div class="msg" id="orderMsg"></div>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <section class="block faq" id="faq">
+      <h2>Preguntas frecuentes</h2>
+      <details><summary>¿La figura final es igual a la vista previa?</summary><p>La vista previa es una guía generada por IA. La figura real la modelamos a mano a partir de tu foto, así que sale más fiel y prolija.</p></details>
+      <details><summary>¿Cuánto tarda?</summary><p>Entre 10 y 15 días hábiles desde que pagás la seña, más el envío.</p></details>
+      <details><summary>¿Puedo pedir cambios?</summary><p>Sí. Antes de imprimir te mandamos renders del modelo 3D y podés pedir ajustes.</p></details>
+      <details><summary>¿Qué pasa con mi foto?</summary><p>Se usa solo para tu figura y se borra automáticamente a los 30 días. No la publicamos sin tu permiso.</p></details>
+      <details><summary>¿Cómo pago el resto?</summary><p>Cuando la figura está lista te pasamos el saldo por Mercado Pago o transferencia, antes del envío.</p></details>
+    </section>
+
+    <footer>
+      <a href="/privacidad.html">Privacidad</a><a id="waLink" class="hidden" target="_blank" rel="noopener">WhatsApp</a>
+      <p>Figuras personalizadas hechas a mano. No somos ni estamos asociados a ninguna marca de juguetes.</p>
+    </footer>
+  </div>
+  <script src="/app.js" type="module"></script>
+</body>
+</html>
