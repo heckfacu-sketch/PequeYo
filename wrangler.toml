@@ -25,7 +25,7 @@ enabled = true
 OPENAI_IMAGE_MODEL = "gpt-image-2"
 OPENAI_IMAGE_QUALITY = "low"
 # Públicos: la Site key de Turnstile y tu WhatsApp (ej. 5491123456789)
-TURNSTILE_SITE_KEY = ""
+TURNSTILE_SITE_KEY = "0x4AAAAAAFnG7ZXvnRqdAzDm"
 CONTACT_WHATSAPP = ""
 
 # Secrets (NO van acá, se cargan en Cloudflare → pequeyo → Settings → Variables and Secrets):

@@ -52,10 +52,8 @@ Dominio propio (.com.ar en NIC Argentina o .com) es opcional: Cloudflare te da `
    - (No pongas regla sobre `orders/` ni `models/`.)
 3. **Workers & Pages → KV** → Create namespace `pequeyo-rate` → copiá el ID y pegalo en `wrangler.toml` (`REEMPLAZAR_CON_EL_ID_DEL_KV`).
 4. **Turnstile** → Add widget → dominio `pequeyo.heckfacu.workers.dev` (y tu dominio si tenés) → copiá **Site key** (va en `wrangler.toml` → `TURNSTILE_SITE_KEY`) y **Secret key**.
-5. **Workers & Pages → Create → Pages → Connect to Git** → elegí el repo.
-   - Framework: None · Build command: vacío · Output directory: `public`.
-   - Los bindings de R2 y KV los toma de `wrangler.toml`.
-6. **Settings → Variables and Secrets** → cargá como *Secret*:
+5. **Workers & Pages → pequeyo** (Worker conectado al repo de GitHub, deploy command `npx wrangler deploy`). Los bindings de R2, KV y assets los toma de `wrangler.toml`.
+6. **pequeyo → Settings → Variables and Secrets** → cargá como *Secret*:
 
 | Nombre | De dónde sale |
 |---|---|
